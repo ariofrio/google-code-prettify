@@ -1,4 +1,5 @@
 // Copyright (C) 2006 Google Inc.
+// Copyright (C) 2010 Andres Riofrio
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -39,8 +40,8 @@
  * That's it.  I wanted to keep the API as simple as possible, so there's no
  * need to specify which language the code is in, but if you wish, you can add
  * another class to the {@code <pre>} or {@code <code>} element to specify the
- * language, as in {@code <pre class="prettyprint lang-java">}.  Any class that
- * starts with "lang-" followed by a file extension, specifies the file type.
+ * language, as in {@code <pre class="prettyprint language-java">}.  Any class that
+ * starts with "language-" followed by a file extension, specifies the file type.
  * See the "lang-*.js" files in this directory for code that implements
  * per-language file handlers.
  * <p>
@@ -775,15 +776,15 @@ window['_pr_isIE6'] = function () {
     * [style : string, pattern : RegExp, DEPRECATED, shortcut : string].
     *
     * Style is a style constant like PR_PLAIN, or can be a string of the
-    * form 'lang-FOO', where FOO is a language extension describing the
+    * form 'language-FOO', where FOO is a language extension describing the
     * language of the portion of the token in $1 after pattern executes.
-    * E.g., if style is 'lang-lisp', and group 1 contains the text
+    * E.g., if style is 'language-lisp', and group 1 contains the text
     * '(hello (world))', then that portion of the token will be passed to the
     * registered lisp handler for formatting.
     * The text before and after group 1 will be restyled using this decorator
     * so decorators should take care that this doesn't result in infinite
     * recursion.  For example, the HTML lexer rule for SCRIPT elements looks
-    * something like ['lang-js', /<[s]cript>(.+?)<\/script>/].  This may match
+    * something like ['language-js', /<[s]cript>(.+?)<\/script>/].  This may match
     * '<script>foo()<\/script>', which would cause the current decorator to
     * be called with '<script>' which would not match the same rule since
     * group 1 must not be empty, so it would be instead styled as PR_TAG by
@@ -889,7 +890,7 @@ window['_pr_isIE6'] = function () {
             }
           }
 
-          isEmbedded = style.length >= 5 && 'lang-' === style.substring(0, 5);
+          isEmbedded = style.length >= 5 && 'language-' === style.substring(0, 5);
           if (isEmbedded && !(match && typeof match[1] === 'string')) {
             isEmbedded = false;
             style = PR_SOURCE;
@@ -1017,7 +1018,7 @@ window['_pr_isIE6'] = function () {
           // finally closed by a /.
           + '/');
       fallthroughStylePatterns.push(
-          ['lang-regex',
+          ['language-regex',
            new RegExp('^' + REGEXP_PRECEDER_PATTERN + '(' + REGEX_LITERAL + ')')
            ]);
     }
@@ -1261,15 +1262,15 @@ window['_pr_isIE6'] = function () {
            [PR_DECLARATION, /^<!\w[^>]*(?:>|$)/],
            [PR_COMMENT,     /^<\!--[\s\S]*?(?:-\->|$)/],
            // Unescaped content in an unknown language
-           ['lang-',        /^<\?([\s\S]+?)(?:\?>|$)/],
-           ['lang-',        /^<%([\s\S]+?)(?:%>|$)/],
+           ['language-',        /^<\?([\s\S]+?)(?:\?>|$)/],
+           ['language-',        /^<%([\s\S]+?)(?:%>|$)/],
            [PR_PUNCTUATION, /^(?:<[%?]|[%?]>)/],
-           ['lang-',        /^<xmp\b[^>]*>([\s\S]+?)<\/xmp\b[^>]*>/i],
+           ['language-',        /^<xmp\b[^>]*>([\s\S]+?)<\/xmp\b[^>]*>/i],
            // Unescaped content in javascript.  (Or possibly vbscript).
-           ['lang-js',      /^<script\b[^>]*>([\s\S]*?)(<\/script\b[^>]*>)/i],
+           ['language-js',      /^<script\b[^>]*>([\s\S]*?)(<\/script\b[^>]*>)/i],
            // Contains unescaped stylesheet content
-           ['lang-css',     /^<style\b[^>]*>([\s\S]*?)(<\/style\b[^>]*>)/i],
-           ['lang-in.tag',  /^(<\/?[a-z][^<>]*>)/i]
+           ['language-css',     /^<style\b[^>]*>([\s\S]*?)(<\/style\b[^>]*>)/i],
+           ['language-in.tag',  /^(<\/?[a-z][^<>]*>)/i]
           ]),
       ['default-markup', 'htm', 'html', 'mxml', 'xhtml', 'xml', 'xsl']);
   registerLangHandler(
@@ -1281,14 +1282,14 @@ window['_pr_isIE6'] = function () {
           [
            [PR_TAG,          /^^<\/?[a-z](?:[\w.:-]*\w)?|\/?>$/i],
            [PR_ATTRIB_NAME,  /^(?!style[\s=]|on)[a-z](?:[\w:-]*\w)?/i],
-           ['lang-uq.val',   /^=\s*([^>\'\"\s]*(?:[^>\'\"\s\/]|\/(?=\s)))/],
+           ['language-uq.val',   /^=\s*([^>\'\"\s]*(?:[^>\'\"\s\/]|\/(?=\s)))/],
            [PR_PUNCTUATION,  /^[=<>\/]+/],
-           ['lang-js',       /^on\w+\s*=\s*\"([^\"]+)\"/i],
-           ['lang-js',       /^on\w+\s*=\s*\'([^\']+)\'/i],
-           ['lang-js',       /^on\w+\s*=\s*([^\"\'>\s]+)/i],
-           ['lang-css',      /^style\s*=\s*\"([^\"]+)\"/i],
-           ['lang-css',      /^style\s*=\s*\'([^\']+)\'/i],
-           ['lang-css',      /^style\s*=\s*([^\"\'>\s]+)/i]
+           ['language-js',       /^on\w+\s*=\s*\"([^\"]+)\"/i],
+           ['language-js',       /^on\w+\s*=\s*\'([^\']+)\'/i],
+           ['language-js',       /^on\w+\s*=\s*([^\"\'>\s]+)/i],
+           ['language-css',      /^style\s*=\s*\"([^\"]+)\"/i],
+           ['language-css',      /^style\s*=\s*\'([^\']+)\'/i],
+           ['language-css',      /^style\s*=\s*([^\"\'>\s]+)/i]
            ]),
       ['in.tag']);
   registerLangHandler(
@@ -1419,13 +1420,13 @@ window['_pr_isIE6'] = function () {
                      Infinity);
       for (; k < elements.length && clock.now() < endTime; k++) {
         var cs = elements[k];
-        if (cs.className && cs.className.indexOf('prettyprint') >= 0) {
+        if (cs.className && cs.className.indexOf('language-') >= 0) {
           // If the classes includes a language extensions, use it.
           // Language extensions can be specified like
-          //     <pre class="prettyprint lang-cpp">
+          //     <pre class="prettyprint language-cpp">
           // the language extension "cpp" is used to find a language handler as
           // passed to PR.registerLangHandler.
-          var langExtension = cs.className.match(/\blang-(\w+)\b/);
+          var langExtension = cs.className.match(/\blanguage-(\w+)\b/);
           if (langExtension) { langExtension = langExtension[1]; }
 
           // make sure this is not nested in an already prettified element
@@ -1433,7 +1434,7 @@ window['_pr_isIE6'] = function () {
           for (var p = cs.parentNode; p; p = p.parentNode) {
             if ((p.tagName === 'pre' || p.tagName === 'code' ||
                  p.tagName === 'xmp') &&
-                p.className && p.className.indexOf('prettyprint') >= 0) {
+                p.className && p.className.indexOf('language-') >= 0) {
               nested = true;
               break;
             }
@@ -1522,3 +1523,8 @@ window['_pr_isIE6'] = function () {
         'PR_TYPE': PR_TYPE
       };
 })();
+
+/* TODO: Use dom:loaded instead, but do not require PrototypeJS. */
+window.onload = function() {
+    prettyPrint();
+}

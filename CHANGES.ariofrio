@@ -1,0 +1,12 @@
+October 31, 2010 by Andres Riofrio
+
+ * Changed all instances of "lang-" to "language-" for better conformance
+   with HTML5 spec. The only exception is in the filename of the extensions.
+
+ * Changed the activation behaviour so that .language-* activates pretty
+   printing instead of .prettyprint. A side effect of this change is that
+   one must specify a language to prettyprint. If prettify doesn't
+   recognize the language, it'll try to figure it out.
+
+   I recommend that if you have a piece of code whose language is unknown, you
+   use .language-x-unknown, and prettyprint will try to figure it out.
